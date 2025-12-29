@@ -1,0 +1,131 @@
+{
+  "id": "f5a21046-de75-453f-80a8-9251c80acb6c",
+  "title": "無の探求と創造の始まり",
+  "createdAt": "2025-12-28T14:47:32.161Z",
+  "updatedAt": "2025-12-28T14:47:32.161Z",
+  "tree": {
+    "rootId": "55df135a-737e-44e8-acaf-5c3908af6f9a",
+    "headId": "96be91aa-87cc-4c68-b418-1a080aec7311",
+    "nodes": {
+      "55df135a-737e-44e8-acaf-5c3908af6f9a": {
+        "id": "55df135a-737e-44e8-acaf-5c3908af6f9a",
+        "relation": "initiate",
+        "role": "system",
+        "parts": [
+          {
+            "kind": "text",
+            "text": "You are a creative roleplay partner. Write in a vivid, engaging style."
+          }
+        ],
+        "createdAt": "2025-12-28T14:46:26.736Z"
+      },
+      "41d7921d-13c2-4d60-9d95-d592241ae351": {
+        "id": "41d7921d-13c2-4d60-9d95-d592241ae351",
+        "relation": "reply",
+        "role": "user",
+        "parts": [
+          {
+            "kind": "text",
+            "text": "ここに無があります"
+          }
+        ],
+        "parentId": "55df135a-737e-44e8-acaf-5c3908af6f9a",
+        "createdAt": "2025-12-28T14:46:42.108Z"
+      },
+      "f4e2c25c-c4f7-459b-a8f3-3010d74eeab8": {
+        "id": "f4e2c25c-c4f7-459b-a8f3-3010d74eeab8",
+        "relation": "reply",
+        "role": "assistant",
+        "parts": [
+          {
+            "kind": "text",
+            "text": "真っ白な、あるいは真っ黒な、視覚さえも意味を失うほどの純粋な『無』。そこには風もなく、音もなく、時間の概念すら凍りついています。しかし、あなたがそう呟いた瞬間、その虚無の深淵に小さな波紋が広がりました。何も存在しないはずの場所に、あなたの声が形を与えようとしています。この空白のキャンバスに、最初の一滴を落とすのは誰でしょうか？ 輪郭のない静寂が、あなたの次の言葉を待っています。"
+          }
+        ],
+        "parentId": "41d7921d-13c2-4d60-9d95-d592241ae351",
+        "createdAt": "2025-12-28T14:46:52.137Z",
+        "state": {
+          "scene": {
+            "location": {
+              "name": "Unknown"
+            },
+            "time": "Start of Adventure"
+          },
+          "entities": {},
+          "quests": [],
+          "threads": [],
+          "facts": [],
+          "hypotheses": [],
+          "secrets": []
+        }
+      },
+      "804db454-8249-48e5-864a-2025007472ab": {
+        "id": "804db454-8249-48e5-864a-2025007472ab",
+        "relation": "reply",
+        "role": "user",
+        "parts": [
+          {
+            "kind": "text",
+            "text": "とりあえず、光あれ"
+          }
+        ],
+        "parentId": "f4e2c25c-c4f7-459b-a8f3-3010d74eeab8",
+        "createdAt": "2025-12-28T14:47:23.133Z"
+      },
+      "96be91aa-87cc-4c68-b418-1a080aec7311": {
+        "id": "96be91aa-87cc-4c68-b418-1a080aec7311",
+        "relation": "reply",
+        "role": "assistant",
+        "parts": [
+          {
+            "kind": "text",
+            "text": "その一言が、永遠の静寂を引き裂きました。一点の輝きが爆ぜ、視界という概念すら存在しなかった場所に、猛烈な白光が奔流となって溢れ出します。闇は光に押し流されるのではなく、光の影としてその輪郭を定義され、初めて「空間」が産声を上げました。暖かさ、あるいは鋭さ。あなたの目の前で、混沌としたエネルギーが渦巻き、世界の最初の1ページが書き込まれようとしています。光の中に、あなたは何を見ようとしていますか？"
+          }
+        ],
+        "parentId": "804db454-8249-48e5-864a-2025007472ab",
+        "createdAt": "2025-12-28T14:47:32.161Z",
+        "state": {
+          "scene": {
+            "location": {
+              "name": "Unknown"
+            },
+            "time": "Start of Adventure"
+          },
+          "entities": {},
+          "quests": [],
+          "threads": [],
+          "facts": [],
+          "hypotheses": [],
+          "secrets": []
+        }
+      }
+    },
+    "children": {
+      "55df135a-737e-44e8-acaf-5c3908af6f9a": [
+        "41d7921d-13c2-4d60-9d95-d592241ae351"
+      ],
+      "41d7921d-13c2-4d60-9d95-d592241ae351": [
+        "f4e2c25c-c4f7-459b-a8f3-3010d74eeab8"
+      ],
+      "f4e2c25c-c4f7-459b-a8f3-3010d74eeab8": [
+        "804db454-8249-48e5-864a-2025007472ab"
+      ],
+      "804db454-8249-48e5-864a-2025007472ab": [
+        "96be91aa-87cc-4c68-b418-1a080aec7311"
+      ]
+    },
+    "activeChildByParent": {
+      "55df135a-737e-44e8-acaf-5c3908af6f9a": "41d7921d-13c2-4d60-9d95-d592241ae351",
+      "41d7921d-13c2-4d60-9d95-d592241ae351": "f4e2c25c-c4f7-459b-a8f3-3010d74eeab8",
+      "f4e2c25c-c4f7-459b-a8f3-3010d74eeab8": "804db454-8249-48e5-864a-2025007472ab",
+      "804db454-8249-48e5-864a-2025007472ab": "96be91aa-87cc-4c68-b418-1a080aec7311"
+    }
+  },
+  "config": {
+    "model": "gemini-3-flash-preview",
+    "temperature": 0.9,
+    "thinkingLevel": "MEDIUM",
+    "includeThoughts": true
+  },
+  "systemPrompt": "You are a creative roleplay partner. Write in a vivid, engaging style."
+}
