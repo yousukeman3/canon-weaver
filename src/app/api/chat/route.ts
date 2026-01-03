@@ -33,6 +33,8 @@ export async function POST(req: NextRequest) {
         const finalConfig: GeminiConfig = config || {
             model: "gemini-3-flash-preview", // default model
             temperature: 0.7,
+            presencePenalty: 0.0,
+            frequencyPenalty: 0.0,
         };
 
         const result = await client.generateFromTree({

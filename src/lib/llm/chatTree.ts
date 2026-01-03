@@ -49,7 +49,7 @@ export const ChatTreeSchema = z.object({
 export type ChatTree = z.infer<typeof ChatTreeSchema>;
 
 const nowIso = () => new Date().toISOString();
-const makeId = () => globalThis.crypto.randomUUID() as ChatNodeId;
+const makeId = () => crypto.randomUUID() as ChatNodeId;
 
 const pushUnique = <T>(arr: readonly T[], item: T): T[] => {
     return arr.includes(item) ? [...arr] : [...arr, item];

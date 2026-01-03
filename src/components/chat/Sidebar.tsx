@@ -170,30 +170,124 @@ export const Sidebar = () => {
                 <div className="h-px bg-white/10 my-4" />
 
                 <section className="space-y-3">
-                    <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider">Model</h3>
+                    <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider">Generation Config</h3>
+
+                    {/* Model Name */}
                     <div className="space-y-2">
                         <label className="block text-xs text-gray-400">Model Name</label>
                         <input
                             type="text"
+                            list="model-options"
                             value={config.model}
                             onChange={(e) => updateConfig({ model: e.target.value })}
-                            className="w-full bg-black/40 border border-white/10 rounded px-3 py-2 text-white focus:outline-none focus:border-purple-500/50"
+                            className="w-full bg-black/40 border border-white/10 rounded px-3 py-2 text-white text-xs focus:outline-none focus:border-purple-500/50"
+                            placeholder="e.g. gemini-2.0-flash-exp"
                         />
+                        <datalist id="model-options">
+                            <option value="gemini-2.0-flash-exp" />
+                            <option value="gemini-1.5-pro" />
+                            <option value="gemini-1.5-flash" />
+                            <option value="gemini-3-flash-preview" />
+                        </datalist>
                     </div>
+
+                    {/* Temperature */}
                     <div className="space-y-2">
-                        <label className="block text-xs text-gray-400">Temperature: {config.temperature}</label>
+                        <div className="flex justify-between text-xs text-gray-400">
+                            <span>Temperature</span>
+                            <span>{config.temperature ?? 0.7}</span>
+                        </div>
                         <input
                             type="range"
                             min="0" max="2" step="0.1"
-                            value={config.temperature ?? 1}
+                            value={config.temperature ?? 0.7}
                             onChange={(e) => updateConfig({ temperature: parseFloat(e.target.value) })}
                             className="w-full accent-purple-500 h-1 bg-white/10 rounded-lg appearance-none cursor-pointer"
                         />
                     </div>
+
+                    {/* Top P */}
+                    <div className="space-y-2">
+                        <div className="flex justify-between text-xs text-gray-400">
+                            <span>Top P</span>
+                            <span>{config.topP ?? 0.95}</span>
+                        </div>
+                        <input
+                            type="range"
+                            min="0" max="1" step="0.05"
+                            value={config.topP ?? 0.95}
+                            onChange={(e) => updateConfig({ topP: parseFloat(e.target.value) })}
+                            className="w-full accent-purple-500 h-1 bg-white/10 rounded-lg appearance-none cursor-pointer"
+                        />
+                    </div>
+
+                    {/* Top K */}
+                    <div className="space-y-2">
+                        <label className="block text-xs text-gray-400">Top K (Empty = Model Default)</label>
+                        <input
+                            type="number"
+                            value={config.topK ?? ""}
+                            onChange={(e) => {
+                                const val = e.target.value;
+                                updateConfig({ topK: val === "" ? undefined : parseInt(val) });
+                            }}
+                            placeholder="e.g. 40"
+                            className="w-full bg-black/40 border border-white/10 rounded px-3 py-2 text-white text-xs focus:outline-none focus:border-purple-500/50"
+                        />
+                    </div>
+
+                    {/* Max Output Tokens */}
+                    <div className="space-y-2">
+                        <label className="block text-xs text-gray-400">Max Tokens (Empty = Model Default)</label>
+                        <input
+                            type="number"
+                            value={config.maxOutputTokens ?? ""}
+                            onChange={(e) => {
+                                const val = e.target.value;
+                                updateConfig({ maxOutputTokens: val === "" ? undefined : parseInt(val) });
+                            }}
+                            placeholder="e.g. 8192"
+                            className="w-full bg-black/40 border border-white/10 rounded px-3 py-2 text-white text-xs focus:outline-none focus:border-purple-500/50"
+                        />
+                    </div>
+
+                    {/* Frequency Penalty */}
+                    <div className="space-y-2">
+                        <div className="flex justify-between text-xs text-gray-400">
+                            <span>Frequency Penalty</span>
+                            <span>{config.frequencyPenalty ?? 0}</span>
+                        </div>
+                        <input
+                            type="range"
+                            min="-2" max="2" step="0.1"
+                            value={config.frequencyPenalty ?? 0}
+                            onChange={(e) => updateConfig({ frequencyPenalty: parseFloat(e.target.value) })}
+                            className="w-full accent-purple-500 h-1 bg-white/10 rounded-lg appearance-none cursor-pointer"
+                        />
+                        <p className="text-[10px] text-gray-500">Positive values discourage repeating lines.</p>
+                    </div>
+
+                    {/* Presence Penalty */}
+                    <div className="space-y-2">
+                        <div className="flex justify-between text-xs text-gray-400">
+                            <span>Presence Penalty</span>
+                            <span>{config.presencePenalty ?? 0}</span>
+                        </div>
+                        <input
+                            type="range"
+                            min="-2" max="2" step="0.1"
+                            value={config.presencePenalty ?? 0}
+                            onChange={(e) => updateConfig({ presencePenalty: parseFloat(e.target.value) })}
+                            className="w-full accent-purple-500 h-1 bg-white/10 rounded-lg appearance-none cursor-pointer"
+                        />
+                        <p className="text-[10px] text-gray-500">Positive values discourage repeating topics.</p>
+                    </div>
                 </section>
 
+                <div className="h-px bg-white/10 my-4" />
+
                 <section className="space-y-3">
-                    <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider">Parameters</h3>
+                    <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider">Thinking Config</h3>
                     <div className="flex items-center space-x-2">
                         <input
                             type="checkbox"
@@ -204,6 +298,22 @@ export const Sidebar = () => {
                         />
                         <label htmlFor="includeThoughts" className="text-sm cursor-pointer select-none">Show Thinking</label>
                     </div>
+
+                    {/* Thinking Level (disabled if thoughts off) */}
+                    {config.includeThoughts && (
+                        <div className="space-y-2">
+                            <label className="block text-xs text-gray-400">Thinking Level (For supported models)</label>
+                            <select
+                                value={config.thinkingLevel ?? "MEDIUM"}
+                                onChange={(e) => updateConfig({ thinkingLevel: e.target.value as any })}
+                                className="w-full bg-black/40 border border-white/10 rounded px-3 py-2 text-white text-xs focus:outline-none focus:border-purple-500/50"
+                            >
+                                <option value="LOW">Low</option>
+                                <option value="MEDIUM">Medium</option>
+                                <option value="HIGH">High</option>
+                            </select>
+                        </div>
+                    )}
                 </section>
             </div>
 

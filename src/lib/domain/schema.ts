@@ -66,6 +66,13 @@ export type Chronicle = z.infer<typeof ChronicleSchema>;
 // Principles: Mutable by LLM, Snapshot of "Now"
 // ==========================================
 
+// --- Shared ---
+export const LocationSchema = z.object({
+    id: CanonIdSchema.optional(), // If in a known Canon location
+    name: z.string(),             // Fallback label or specific room name
+    detail: z.string().optional() // "Under the table", "Near the door"
+});
+
 // --- Entities ---
 export const EntityStateSchema = z.object({
     id: EntityIdSchema,
@@ -78,31 +85,19 @@ export const EntityStateSchema = z.object({
 
     // Dynamic properties
     // Location structured for stability
-    location: z.object({
-        id: CanonIdSchema.optional(), // If in a known Canon location
-        name: z.string(),             // Fallback label or specific room name
-        detail: z.string().optional() // "Under the table", "Near the door"
-    }),
+    location: LocationSchema,
 
     activity: z.string(), // "What they are doing"
-    status: z.string(),   // "Healthy", "Injured", "Joyful", etc.
+    condition: z.string(),   // "Healthy", "Injured", "Joyful", etc.
     intent: z.string().optional(), // "What they plan to do next"
 
-    // Generic key-value for flexible RPG stats with simple categorizations possible via keys prefix or just kept flat
-    attributes: z.record(z.string(), z.union([z.string(), z.number(), z.boolean()])).default({}),
-});
+    relationToPlayer: z.string(),
 
-// --- Scene ---
-export const SceneStateSchema = z.object({
-    // Camera context
-    location: z.object({
-        id: CanonIdSchema.optional(),
-        name: z.string(),
-        detail: z.string().optional()
-    }),
-    time: z.string(),       // "Morning", "Year 30XX", etc.
-    weather: z.string().optional(),
-    atmosphere: z.string().optional(), // "Tense", "Peaceful"
+    // Generic key-value for flexible RPG stats, changed to array for LLM compatibility
+    attributes: z.array(z.object({
+        key: z.string(),
+        value: z.union([z.string(), z.number(), z.boolean()])
+    })).default([]),
 });
 
 // --- Goals & Threads ---
@@ -110,13 +105,48 @@ export const QuestStatusSchema = z.enum(['ACTIVE', 'COMPLETED', 'FAILED', 'PAUSE
 
 export const QuestSchema = z.object({
     id: z.uuid(),
-    title: z.string(),
-    description: z.string(),
-    status: QuestStatusSchema,
+    label: z.string(),
+    description: z.string().optional(), // Restored description
+    status: QuestStatusSchema.default('ACTIVE'), // Restored status with default
     steps: z.array(z.object({
         description: z.string(),
         completed: z.boolean(),
+    })).default([]), // Restored steps
+
+    // Flexible attributes
+    attributes: z.array(z.object({
+        key: z.string(),
+        value: z.union([z.string(), z.number(), z.boolean()])
     })).default([]),
+});
+
+export type QuestState = z.infer<typeof QuestSchema>;
+
+// --- Player ---
+export const PlayerStateSchema = z.object({
+    name: z.string().default("Player"),
+    location: LocationSchema.default({ name: "Unknown" }),
+    condition: z.string().default("Healthy"),
+    activity: z.string().optional(),
+    intent: z.string().optional(),
+
+    // Arrays for tracking items and skills
+    inventory: z.array(z.string()).default([]),
+    capabilities: z.array(z.string()).default([]),
+
+    attributes: z.array(z.object({
+        key: z.string(),
+        value: z.union([z.string(), z.number(), z.boolean()])
+    })).default([]),
+});
+
+// --- Scene ---
+export const SceneStateSchema = z.object({
+    // Camera context
+    location: LocationSchema,
+    time: z.string(),       // "Morning", "Night", "Winter 1054", etc.
+    weather: z.string().optional(),
+    atmosphere: z.string().optional(), // "Tense", "Joyful", "Spooky"
 });
 
 export const ThreadSchema = z.object({
@@ -125,12 +155,15 @@ export const ThreadSchema = z.object({
     status: z.enum(['UNRESOLVED', 'RESOLVED', 'ABANDONED']),
 });
 
+export type ThreadState = z.infer<typeof ThreadSchema>;
+
 // --- Root State ---
 export const WorldStateSchema = z.object({
     scene: SceneStateSchema,
+    player: PlayerStateSchema,
 
-    // Dictionary for easier diffing/patching by ID
-    entities: z.record(EntityIdSchema, EntityStateSchema),
+    // Entities dictionary converted to list for consistency with patch logic
+    entities: z.array(EntityStateSchema).default([]),
 
     quests: z.array(QuestSchema).default([]),
     threads: z.array(ThreadSchema).default([]),
@@ -146,13 +179,23 @@ export const WorldStateSchema = z.object({
 });
 
 export type WorldState = z.infer<typeof WorldStateSchema>;
+export type EntityState = z.infer<typeof EntityStateSchema>;
+export type PlayerState = z.infer<typeof PlayerStateSchema>;
 
 export const DEFAULT_WORLD_STATE: WorldState = {
     scene: {
         location: { name: "Unknown" },
         time: "Start of Adventure"
     },
-    entities: {},
+    player: {
+        name: "Player",
+        location: { name: "Unknown" },
+        condition: "Healthy",
+        inventory: [],
+        capabilities: [],
+        attributes: []
+    },
+    entities: [],
     quests: [],
     threads: [],
     facts: [],
