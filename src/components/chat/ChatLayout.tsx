@@ -1,6 +1,6 @@
 import { useChatStore } from '@/stores/chatStore';
 import { clsx } from 'clsx';
-import { Menu } from 'lucide-react';
+import { BookOpen, Menu, X } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
 import { RightSidebar } from './RightSidebar';
@@ -28,32 +28,56 @@ export const ChatLayout = ({ children }: { children: React.ReactNode }) => {
             {/* Overlay */}
             <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
 
+            {/* Mobile Backdrop for Left Sidebar */}
+            {sidebarOpen && (
+                <div
+                    className="fixed inset-0 z-20 bg-black/60 backdrop-blur-sm md:hidden"
+                    onClick={() => setSidebarOpen(false)}
+                />
+            )}
+
             {/* Left Sidebar (Session List) */}
             <div
                 className={clsx(
-                    "z-20 h-full bg-black/50 border-r border-white/10 transition-[width,opacity] duration-300 ease-in-out backdrop-blur-md",
-                    sidebarOpen ? "w-[320px] opacity-100" : "w-0 opacity-0 overflow-hidden"
+                    "fixed inset-y-0 left-0 z-30 h-full bg-black/80 md:bg-black/50 border-r border-white/10 transition-[transform,width,opacity] duration-300 ease-in-out backdrop-blur-md",
+                    // Mobile: Slide in/out
+                    "md:relative md:translate-x-0",
+                    sidebarOpen ? "translate-x-0 w-[280px] md:w-[320px] md:opacity-100" : "-translate-x-full md:translate-x-0 md:w-0 md:opacity-0 md:overflow-hidden"
                 )}
             >
                 <Sidebar />
             </div>
 
             {/* Main Content */}
-            <div className="relative z-10 flex flex-1 flex-col h-full overflow-hidden">
+            <div className="relative z-10 flex flex-1 flex-col h-full overflow-hidden w-full">
                 {/* Header / Toggle */}
-                <header className="flex h-12 items-center justify-between px-4 border-b border-white/5 bg-transparent">
-                    <div className="flex items-center">
-                        {!sidebarOpen && (
-                            <button
-                                onClick={() => setSidebarOpen(true)}
-                                className="p-2 rounded-md hover:bg-white/10 text-white/70 transition-colors"
-                            >
-                                <Menu size={20} />
-                            </button>
-                        )}
+                <header className="flex h-12 items-center justify-between px-4 border-b border-white/5 bg-transparent shrink-0">
+                    <div className="flex items-center gap-2">
+                        {/* Always show menu button on mobile if closed, or desktop if closed */}
+                        <button
+                            onClick={() => setSidebarOpen(true)}
+                            className={clsx(
+                                "p-2 rounded-md hover:bg-white/10 text-white/70 transition-colors",
+                                sidebarOpen ? "hidden md:hidden" : "block" // Hide when open (Sidebar has close btn), but logic is tricky. Sidebar X closes it.
+                                // Actually, on mobile, if sidebar is open, it functions as drawer. 
+                                // On desktop, if sidebar is open, we hide this button to avoid dup.
+                            )}
+                        >
+                            <Menu size={20} />
+                        </button>
                     </div>
 
-                    {/* World Info Toggle Removed as per request (Permanent Sidebar) */}
+                    {/* Right Sidebar Toggle (Mobile Only) */}
+                    <button
+                        onClick={() => setWorldInfoOpen(!worldInfoOpen)}
+                        className={clsx(
+                            "p-2 rounded-md hover:bg-white/10 text-white/70 transition-colors md:hidden",
+                            worldInfoOpen ? "text-purple-400" : ""
+                        )}
+                    >
+                        {worldInfoOpen ? <X size={20} /> : <BookOpen size={20} />}
+                    </button>
+
                 </header>
 
                 {/* Chat Area */}
@@ -62,8 +86,20 @@ export const ChatLayout = ({ children }: { children: React.ReactNode }) => {
                 </main>
             </div>
 
+            {/* Mobile Backdrop for Right Sidebar */}
+            {worldInfoOpen && (
+                <div
+                    className="fixed inset-0 z-20 bg-black/60 backdrop-blur-sm md:hidden"
+                    onClick={() => setWorldInfoOpen(false)}
+                />
+            )}
+
             {/* Right Sidebar (World Info / Canon) */}
-            <div className="z-20 h-full w-[450px] bg-black/20 backdrop-blur-sm border-l border-white/10 shrink-0">
+            <div className={clsx(
+                "fixed inset-y-0 right-0 z-30 h-full w-[85%] max-w-[450px] bg-black/90 md:bg-black/20 backdrop-blur-md border-l border-white/10 transition-transform duration-300 ease-in-out",
+                "md:relative md:translate-x-0 md:w-[450px] md:block",
+                worldInfoOpen ? "translate-x-0" : "translate-x-full md:translate-x-0"
+            )}>
                 <RightSidebar />
             </div>
         </div>

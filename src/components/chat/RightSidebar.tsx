@@ -1,16 +1,16 @@
 import { useChatStore } from '@/stores/chatStore';
 import { clsx } from 'clsx';
-import { Book, Database } from 'lucide-react';
+import { Book, Database, X } from 'lucide-react';
 import { CanonPanel } from './CanonPanel';
 import { WorldInfoPanel } from './WorldInfoPanel';
 
 export const RightSidebar = () => {
-    const { rightSidebarMode, setRightSidebarMode } = useChatStore();
+    const { rightSidebarMode, setRightSidebarMode, setWorldInfoOpen } = useChatStore();
 
     return (
         <div className="flex flex-col h-full w-full bg-black/50 backdrop-blur-md border-l border-white/10">
             {/* Mode Switcher Tabs */}
-            <div className="flex border-b border-white/10 bg-black/20">
+            <div className="flex items-center border-b border-white/10 bg-black/20">
                 <button
                     onClick={() => setRightSidebarMode('state')}
                     className={clsx(
@@ -34,6 +34,14 @@ export const RightSidebar = () => {
                 >
                     <Database size={14} />
                     <span>Canon</span>
+                </button>
+
+                {/* Mobile Close Button */}
+                <button
+                    onClick={() => setWorldInfoOpen(false)}
+                    className="p-3 text-gray-400 hover:text-white md:hidden border-l border-white/5"
+                >
+                    <X size={16} />
                 </button>
             </div>
 
