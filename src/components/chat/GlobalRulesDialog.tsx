@@ -8,7 +8,8 @@ interface GlobalRulesDialogProps {
 }
 
 export const GlobalRulesDialog = ({ isOpen, onClose }: GlobalRulesDialogProps) => {
-    const { canon, updateGlobalRules } = useChatStore();
+    const canon = useChatStore(s => s.canon);
+    const updateGlobalRules = useChatStore(s => s.updateGlobalRules);
     const [rules, setRules] = useState<string[]>([]);
     const [newRule, setNewRule] = useState("");
 

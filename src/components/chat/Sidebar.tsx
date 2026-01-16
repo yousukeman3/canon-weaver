@@ -7,17 +7,15 @@ import { useState } from 'react';
 
 export const Sidebar = () => {
     const router = useRouter();
-    const {
-        setSidebarOpen,
-        config,
-        updateConfig,
-        sessions,
-        currentSessionId,
-        createSession,
-        renameSession,
-        deleteSession,
-        isSessionLoading
-    } = useChatStore();
+    const setSidebarOpen = useChatStore(s => s.setSidebarOpen);
+    const config = useChatStore(s => s.config);
+    const updateConfig = useChatStore(s => s.updateConfig);
+    const sessions = useChatStore(s => s.sessions);
+    const currentSessionId = useChatStore(s => s.currentSessionId);
+    const createSession = useChatStore(s => s.createSession);
+    const renameSession = useChatStore(s => s.renameSession);
+    const deleteSession = useChatStore(s => s.deleteSession);
+    const isSessionLoading = useChatStore(s => s.isSessionLoading);
 
     const [editingSessionId, setEditingSessionId] = useState<string | null>(null);
     const [editValue, setEditValue] = useState("");

@@ -11,7 +11,10 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const WorldInfoPanel = () => {
-    const { tree, updatePlayerName, chronicle, wrapUpChapter } = useChatStore();
+    const tree = useChatStore(s => s.tree);
+    const updatePlayerName = useChatStore(s => s.updatePlayerName);
+    const chronicle = useChatStore(s => s.chronicle);
+    const wrapUpChapter = useChatStore(s => s.wrapUpChapter);
     const [activeTab, setActiveTab] = useState<'scene' | 'player' | 'entities' | 'quests' | 'lore' | 'chronicle'>('scene');
     const [isEditingName, setIsEditingName] = useState(false);
     const [editNameValue, setEditNameValue] = useState("");

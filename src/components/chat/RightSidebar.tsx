@@ -5,7 +5,9 @@ import { CanonPanel } from './CanonPanel';
 import { WorldInfoPanel } from './WorldInfoPanel';
 
 export const RightSidebar = () => {
-    const { rightSidebarMode, setRightSidebarMode, setWorldInfoOpen } = useChatStore();
+    const rightSidebarMode = useChatStore(s => s.rightSidebarMode);
+    const setRightSidebarMode = useChatStore(s => s.setRightSidebarMode);
+    const setWorldInfoOpen = useChatStore(s => s.setWorldInfoOpen);
 
     return (
         <div className="flex flex-col h-full w-full bg-black/50 backdrop-blur-md border-l border-white/10">

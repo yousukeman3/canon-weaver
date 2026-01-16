@@ -8,7 +8,12 @@ import { Sidebar } from './Sidebar';
 
 
 export const ChatLayout = ({ children }: { children: React.ReactNode }) => {
-    const { sidebarOpen, setSidebarOpen, worldInfoOpen, setWorldInfoOpen, loadSessions, currentSessionId } = useChatStore();
+    const sidebarOpen = useChatStore(s => s.sidebarOpen);
+    const setSidebarOpen = useChatStore(s => s.setSidebarOpen);
+    const worldInfoOpen = useChatStore(s => s.worldInfoOpen);
+    const setWorldInfoOpen = useChatStore(s => s.setWorldInfoOpen);
+    const loadSessions = useChatStore(s => s.loadSessions);
+    const currentSessionId = useChatStore(s => s.currentSessionId);
     const router = useRouter();
     const pathname = usePathname();
 

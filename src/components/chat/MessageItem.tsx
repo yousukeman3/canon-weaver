@@ -12,7 +12,10 @@ interface MessageItemProps {
 }
 
 export const MessageItem = ({ node }: MessageItemProps) => {
-    const { tree, navigateBranch, regenerate, editMessage } = useChatStore();
+    const tree = useChatStore(s => s.tree);
+    const navigateBranch = useChatStore(s => s.navigateBranch);
+    const regenerate = useChatStore(s => s.regenerate);
+    const editMessage = useChatStore(s => s.editMessage);
     const [showThoughts, setShowThoughts] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [editText, setEditText] = useState('');

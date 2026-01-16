@@ -6,17 +6,15 @@ import { CanonEntryDialog } from './CanonEntryDialog';
 import { GlobalRulesDialog } from './GlobalRulesDialog';
 
 export const CanonPanel = () => {
-    const {
-        canon,
-        canonDrafts,
-        runCuration,
-        isCurating,
-        approveCanonDraft,
-        rejectCanonDraft,
-        addCanonEntry,
-        updateCanonEntry,
-        deleteCanonEntry
-    } = useChatStore();
+    const canon = useChatStore(s => s.canon);
+    const canonDrafts = useChatStore(s => s.canonDrafts);
+    const isCurating = useChatStore(s => s.isCurating);
+    const runCuration = useChatStore(s => s.runCuration);
+    const approveCanonDraft = useChatStore(s => s.approveCanonDraft);
+    const rejectCanonDraft = useChatStore(s => s.rejectCanonDraft);
+    const addCanonEntry = useChatStore(s => s.addCanonEntry);
+    const updateCanonEntry = useChatStore(s => s.updateCanonEntry);
+    const deleteCanonEntry = useChatStore(s => s.deleteCanonEntry);
 
     const [isEntryDialogOpen, setIsEntryDialogOpen] = useState(false);
     const [isRulesDialogOpen, setIsRulesDialogOpen] = useState(false);

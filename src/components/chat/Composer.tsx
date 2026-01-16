@@ -4,7 +4,8 @@ import { Send, Sparkles } from 'lucide-react';
 import { useRef, useState } from 'react';
 
 export const Composer = () => {
-    const { sendMessage, isGenerating } = useChatStore();
+    const sendMessage = useChatStore(s => s.sendMessage);
+    const isGenerating = useChatStore(s => s.isGenerating);
     const [input, setInput] = useState('');
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 

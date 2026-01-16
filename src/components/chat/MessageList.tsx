@@ -4,7 +4,8 @@ import { useEffect, useRef } from 'react';
 import { MessageItem } from './MessageItem';
 
 export const MessageList = () => {
-    const { tree, isGenerating } = useChatStore();
+    const tree = useChatStore(s => s.tree);
+    const isGenerating = useChatStore(s => s.isGenerating);
     const bottomRef = useRef<HTMLDivElement>(null);
 
     // Get active path
