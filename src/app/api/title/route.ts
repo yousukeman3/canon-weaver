@@ -1,10 +1,12 @@
+import { GEMINI_MODELS } from "@/lib/constants";
 import { ChatTree, getPathNodesFromHead } from "@/lib/llm/chatTree";
 import { GoogleGenAI } from "@google/genai";
 import { NextRequest, NextResponse } from "next/server";
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "";
 // Using a fast model for title generation
-const TITLE_MODEL = "gemini-2.0-flash-exp";
+// Using a fast model for title generation
+const TITLE_MODEL = GEMINI_MODELS.FAST;
 
 export async function POST(req: NextRequest) {
     if (!GEMINI_API_KEY) {

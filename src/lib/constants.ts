@@ -1,9 +1,15 @@
 import { ThinkingLevel } from "@google/genai";
 
+export const GEMINI_MODELS = {
+    MAIN: "gemini-3-flash-preview",
+    FAST: "gemini-2.0-flash-exp",
+    DETAILS: "gemini-3-flash-preview"
+} as const;
+
 export const DEFAULT_SYSTEM_PROMPT = `You are a creative roleplay partner. Write in a vivid, engaging style.`;
 
 export const DEFAULT_GEMINI_CONFIG = {
-    model: "gemini-3-flash-preview",
+    model: GEMINI_MODELS.MAIN,
     temperature: 0.7,
     presencePenalty: 0.0,
     frequencyPenalty: 0.0,

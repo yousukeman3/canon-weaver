@@ -1,3 +1,4 @@
+import { DEFAULT_GEMINI_CONFIG } from "@/lib/constants";
 import { ChatTree } from "@/lib/llm/chatTree";
 import { createGeminiClient, GeminiConfig } from "@/lib/llm/gemini";
 import { NextRequest, NextResponse } from "next/server";
@@ -30,12 +31,7 @@ export async function POST(req: NextRequest) {
         const client = createGeminiClient(GEMINI_API_KEY);
 
         // Default config if not provided
-        const finalConfig: GeminiConfig = config || {
-            model: "gemini-3-flash-preview", // default model
-            temperature: 0.7,
-            presencePenalty: 0.0,
-            frequencyPenalty: 0.0,
-        };
+        const finalConfig: GeminiConfig = config || DEFAULT_GEMINI_CONFIG;
 
         const result = await client.generateFromTree({
             tree,
